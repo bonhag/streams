@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Center test</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    body {
+      background: black;
+    }
+    #imgContainer {
+      width: 100%;
+      background: url('office.jpg') no-repeat center center;
+    }
+  </style>
+  <script src="/src/jquery-1.7.2.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    function expandImgContainer(){
+      $('#imgContainer').height($(window).height());
+    }
+    $(document).ready(function(){
+      expandImgContainer();
+    });
+  </script>
+  </head>
+  <body>
+    <div id="imgContainer">
+    </div>
+  </body>
+</html>
+

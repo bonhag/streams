@@ -1,6 +1,10 @@
 require 'sinatra'
 
 get '/' do
-  'great!'
+  erb :index
+end
+
+post '/data' do
+  params[:myfile]
 end
 
