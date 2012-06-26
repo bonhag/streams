@@ -17,11 +17,10 @@ end
 
 put '/update/:source' do
   source = params[:source]
+  source_sanitized = source.gsub(/[^A-Za-z]/, "")
+  f = open("public/#{source_sanitized}.jpg", 'wb')
   the_file_object = params[:file][:tempfile] # this is the file object itself.
-  sources[source] = File.absolute_path(the_file_object)
-end
-
-post '/data' do
-  params[:myfile]
+  f.write(the_file_object)
+  f.close
 end
 
