@@ -7,6 +7,11 @@ get '/' do
 end
 
 get '/watch/:source' do
+  @source = params[:source]
+  erb :viewer
+end
+
+get '/window/:source' do
   content_type 'image/jpeg'
   source = params[:source]
   sources[source]
