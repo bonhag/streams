@@ -1,15 +1,15 @@
 require 'rest_client'
 
-host = "growing-window-4124.herokuapp.com"
+host = 'localhost:4567'
 
-puts "Please enter the name of your source:"
-source = gets.chomp
-source_sanitized = source.gsub(/[^A-Za-z]/, '')
-source = source_sanitized
+puts "Please enter the name of your stream:"
+stream = gets.chomp
+stream_sanitized = stream.gsub(/[^A-Za-z]/, '')
+stream = stream_sanitized
 
-puts "You can watch this stream at http://#{host}/watch/#{source}"
+puts "You can watch this stream at http://#{host}/watch/#{stream}"
 
-response = RestClient.put "http://#{host}/update/#{source}",
+response = RestClient.put "http://#{host}/update/#{stream}",
                             :file => File.new("capture.jpg", 'rb')
 
 puts response.code
