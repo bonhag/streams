@@ -1,4 +1,7 @@
+var stream = ""
+
 $(document).ready(function(){
+  stream = $('#imgContainer > img').attr("src");
   expandImageContainer();
   centerImage();
   beginLoop();
@@ -28,16 +31,16 @@ function centerImage(){
   $('#imgContainer > img').css("top", image_top);
 }
 
-var frequency = 2000
+var frequency = 2000;
+var id = 0;
 
 function beginLoop(){
   setInterval( "refreshImage()", frequency );
 }
 
-// same src, different timestamp
+// same src, different id
 function refreshImage(){
-  var source = $('#imgContainer > img').attr("src");
-  var ms = new Date().getTime();
-  $('#imgContainer > img').attr("src", source + '?' + ms);
+  $('#imgContainer > img').attr("src", stream + '?' + id);
+  id++;
 }
 
