@@ -1,6 +1,6 @@
 require 'rest_client'
 
-host = 'localhost:4567'
+host = 'www.pauljohninternetart.info'
 
 puts "Please enter the name of your stream:"
 stream = gets.chomp
