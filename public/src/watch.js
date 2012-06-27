@@ -31,6 +31,12 @@ function centerImage(){
   $('#imgContainer > img').css("top", image_top);
 }
 
+// do the previous two things whenever the user resizes the window
+$(window).resize(function(){
+  expandImageContainer();
+  centerImage();
+});
+
 var frequency = 2000;
 var id = 0;
 
