@@ -9,8 +9,10 @@ stream = stream_sanitized
 
 puts "You can watch this stream at http://#{host}/watch/#{stream}"
 
-response = RestClient.put "http://#{host}/update/#{stream}",
-                            :file => File.new("capture.jpg", 'rb')
-
-puts response.code
+loop {
+  system("./wacaw #{stream}")
+  response = RestClient.put "http://#{host}/update/#{stream}",
+                            :file => File.new("#{stream}.jpeg", 'rb')
+  puts response.code
+}
 
