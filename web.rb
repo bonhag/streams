@@ -11,6 +11,10 @@ get '/watch' do
   redirect to '/'
 end
 
+get '/watch/' do
+  redirect to '/'
+end
+
 get '/watch/:stream' do
   @stream = params[:stream]
   erb :viewer
