@@ -1,28 +1,35 @@
 require 'sinatra'
 
-sources = {}
+streams = {}
 
 get '/' do
   erb :index
 end
 
-get '/watch/:source' do
-  @source = params[:source]
+get '/watch' do
+  erb :index
+end
+
+get '/watch/:stream' do
+  @stream = params[:stream]
   erb :viewer
 end
 
-get '/window/:source' do
+get '/window/:stream' do
   content_type 'image/jpeg'
-  source = params[:source]
-  sources[source]
+  begin
+    streams[ params[:stream] ].rewind()
+    streams[ params[:stream] ].read()
+  rescue NoMethodError
+    nil
+  end
 end
 
-post '/create/:source' do
+post '/create/:stream' do
 end
 
-put '/update/:source' do
-  source = params[:source]
-  fobject = params[:file][:tempfile]
-  sources[source] = fobject.read()
+put '/update/:stream' do
+  streams[ params[:stream] ] = params[:file][:tempfile]
+  nil
 end
 

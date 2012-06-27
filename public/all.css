@@ -3,14 +3,14 @@
   margin: 0;
 }
 body {
-  background: black;
+  background: rgb(30, 30, 30);
 }
 #imgContainer {
   width: 100%;
 }
-IMG {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+img {
+  position: absolute;
+  margin: 0px;
+  text-align: center;
 }
 
