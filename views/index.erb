@@ -8,7 +8,7 @@
   <body>
     <h1>PAUL JOHN INTERNET ART</h1>
     <h2>DOT INFO</h2>
-    <center><img src="/office.jpg"></center>
+    <center><%= "<img src=\"/window/#{@available_streams.shuffle.first}\">" %></center>
     <p>The following streams are available for your enjoyment:</p>
     <ul>
     <% @available_streams.each do |stream| %>
