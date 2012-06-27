@@ -3,11 +3,12 @@ require 'sinatra'
 streams = {}
 
 get '/' do
+  @available_streams = streams.keys
   erb :index
 end
 
 get '/watch' do
-  erb :index
+  redirect to '/'
 end
 
 get '/watch/:stream' do

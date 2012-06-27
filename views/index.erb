@@ -10,6 +10,12 @@
     <div id="imgContainer">
       <img src="/office.jpg">
     </div>
+    <p>The following streams are available for your enjoyment:</p>
+    <ul>
+    <% @available_streams.each do |stream| %>
+      <li><%= "<a href=\"/watch/#{stream}\">#{stream}</a>" %></li> 
+    <% end %>
+    </ul>
   </body>
 </html>
 
