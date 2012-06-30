@@ -1,3 +1,5 @@
+# TODO: change image files to simply '/streams/*.jpg'
+
 require 'sinatra'
 
 ENV['RACK_ENV'] = "production"
@@ -32,12 +34,12 @@ get '/watch/:stream' do
   erb :viewer
 end
 
-get '/window/:stream' do
+get '/streams/*.jpg' do
   content_type 'image/jpeg'
   begin
     streams[ params[:stream] ].rewind()
     streams[ params[:stream] ].read()
-  rescue NoMethodError
+  rescue NoMethodError # no stream of this name exists
     nil
   end
 end
