@@ -8,33 +8,26 @@ require './stream'
 streams = {}
 
 get '/watch/:stream' do
-  @name = params[:stream]
+  @stream = params[:stream]
   erb :stream
 end
 
-get '/streams' do
-  streams
-end
-
 get '/create/:stream' do
-  @stream = Stream.new(params[:stream])
-  if streams[ @stream.name ].class == Stream
-    "Someone is already broadcasting from '#{@stream.name}'."
-  else
-    streams[ @stream.name ] = @stream
-    "Successfully created '#{@stream.name}' with password '#{@stream.password}'"
-  end
+  streams[ params[:stream] ] = nil 
 end
 
 put '/update/:stream' do
-  use Rack::Auth::Basic do |username, password|
-    @stream = streams[ params[:stream] ]
-    if password == @stream.password
-      "Stream updated."
-    else
-      "ERROR: Incorrect password."
-    end
-  end
+  streams[ params[:stream] ] = request.body.read
+  "Image updated successfully."
+end
+
+delete '/delete/:stream' do
+  streams.delete(params[:stream])
+end
+
+get '/streams/*.jpg' do |stream|
+  content_type 'image/jpeg'
+  streams[ stream ]
 end
 
 get '/' do
@@ -49,19 +42,5 @@ end
 
 get '/client' do
   redirect '/client/'
-end
-
-get '/streams/*.jpg' do
-  content_type 'image/jpeg'
-  begin
-    streams[ params[:stream] ].rewind()
-    streams[ params[:stream] ].read()
-  rescue NoMethodError # no stream of this name exists
-    "No stream called #{params[:stream]} exists. You can create one!"
-  end
-end
-
-not_found do
-  redirect '/'
 end
 
