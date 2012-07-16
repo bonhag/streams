@@ -1,6 +1,7 @@
 # TODO: add '/client' instructions for setting up client
 
 require 'sinatra'
+require 'rdiscount'
 
 helpers do
 
@@ -21,6 +22,10 @@ helpers do
     (1..length).map{ chars.sample }.join
   end
 
+  def stream_reserved?(stream)
+    # a stream exists if there is a password set for it
+    false
+  end
 end
 
 #ENV['RACK_ENV'] = "production"
@@ -31,36 +36,51 @@ get '/watch/:stream' do
 end
 
 get '/create/:stream' do
-  stream = params[:stream]
-  stream
+  stream = params[:stream].gsub(/[^A-Za-z]/, "")
+  password = stream
+  # return password, and that's all
+  password
 end
 
 put '/update/:stream' do
   stream = params[:stream]
   protected!(stream)
-  puts "Recieved request to update #{stream}"
+  if ENV['RACK_ENV'] == "development"
+    puts "Recieved request to update #{stream}"
+  end
   stream_file = open( File.dirname(__FILE__) + "/public/streams/#{stream}.jpg", 'wb')
   stream_file.write(request.body.read)
   stream_file.close
-  puts "Stream updated successfully."
+  if ENV['RACK_ENV'] == "development"
+    puts "Stream updated successfully."
+  end
 end
 
 delete '/delete/:stream' do
   stream = params[:stream]
   protected!(stream)
+  # first, delete password entry
+  # then, delete file if it exists.
   File.delete( File.dirname(__FILE__) + "/public/streams/#{stream}.jpg" )
 end
 
 get '/' do
-  @available_streams = Dir.chdir("public/streams") do
+  jpgs = Dir.chdir("public/streams") do
     Dir.glob("*.jpg")
-  end 
+  end
+
+  @available_streams = []
+
+  jpgs.each { |jpg|
+    @available_streams << jpg.sub(".jpg", "")
+  }
+
   erb :index
 end
 
 get '/client/' do
   # instructions for client
-  erb :client
+  markdown :client
 end
 
 get '/client' do
