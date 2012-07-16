@@ -1,7 +1,6 @@
 # TODO: add '/client' instructions for setting up client
 
 require 'sinatra'
-require './stream'
 
 #ENV['RACK_ENV'] = "production"
 
