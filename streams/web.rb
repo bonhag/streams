@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'maruku'
+require 'redcarpet'
 
 helpers do
 
