@@ -1,7 +1,5 @@
-# TODO: add '/client' instructions for setting up client
-
 require 'sinatra'
-require 'rdiscount'
+require 'maruku'
 
 helpers do
 
