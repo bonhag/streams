@@ -6,11 +6,11 @@
       var i = 0;
 
       function start(){
-        setInterval( "refreshStream()", 1000 );
+        setInterval( "refreshStream()", 2000 );
       }
 
       function refreshStream(){
-        $('#stream').attr("src", "/streams/<%= @name %>.jpg?"+i);
+        $('#stream').attr("src", "/streams/<%= @name %>.jpeg?"+i);
         $('#stream').css("top", "50%"); 
         $('#stream').css("left", "50%"); 
         $('#stream').css("width", $('#stream').width());
@@ -35,7 +35,7 @@
     </style>
   </head>
   <body>
-    <img id="stream" alt="<%= @name %>" src="/streams/<%= @name %>.jpg">
+    <img id="stream" alt="<%= @name %>" src="/streams/<%= @name %>.jpeg">
   </body>
 </html>
 

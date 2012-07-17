@@ -6,9 +6,9 @@ helpers do
 
   def streams
     all_streams = []
-    files = Dir.glob("public/streams/*.jpg")
+    files = Dir.glob("public/streams/*.jpeg")
     files.each do |file|
-      all_streams << file.sub("public/streams/","").sub(".jpg","")
+      all_streams << file.sub("public/streams/","").sub(".jpeg","")
     end
     all_streams
   end
@@ -51,31 +51,37 @@ get '/create/:stream' do
 end
 
 put '/update/:stream' do
-  stream = params[:stream]
+  stream = params[:stream].gsub(/[^A-Za-z]/, "")
   if ENV['RACK_ENV'] == "development"
     puts "Recieved request to update #{stream}"
   end
-  stream_file = open( File.dirname(__FILE__) + "/public/streams/#{stream}.jpg", 'wb')
-  stream_file.write(request.body.read)
-  stream_file.close
+  File.open("public/streams/#{stream}.jpeg", 'w+') do |file|
+    file.write(request.body.read)
+  end
   if ENV['RACK_ENV'] == "development"
     puts "Stream updated successfully."
   end
 end
 
+put '/upload/:id' do
+  File.open("public/streams/#{params[:id]}", 'w+') do |file|
+    file.write(request.body.read)
+  end
+end
+
 delete '/delete/:stream' do
-  stream = params[:stream]
+  stream = params[:stream].gsub(/[^A-Za-z]/, "")
   # first, delete password entry
   # then, delete file if it exists.
-  File.delete( File.dirname(__FILE__) + "/public/streams/#{stream}.jpg" )
+  File.delete( "public/streams/#{stream}.jpeg" )
 end
 
 get '/' do
   @rand_src = nil
   if streams.empty?
-    @rand_src = "/no.jpg"
+    @rand_src = "/no.jpeg"
   else
-    @rand_src = "/streams/#{streams.shuffle[0]}.jpg"
+    @rand_src = "/streams/#{streams.shuffle[0]}.jpeg"
   end
   erb :index
 end
