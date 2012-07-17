@@ -1,7 +1,17 @@
 require 'sinatra'
 require 'redcarpet'
+require 'json'
 
 helpers do
+
+  def streams
+    all_streams = []
+    files = Dir.glob("public/streams/*.jpg")
+    files.each do |file|
+      all_streams << file.sub("public/streams/","").sub(".jpg","")
+    end
+    all_streams
+  end
 
   def protected!(stream)
     unless authorized?(stream)
@@ -63,18 +73,13 @@ delete '/delete/:stream' do
 end
 
 get '/' do
-  jpgs = Dir.chdir("public/streams") do
-    Dir.glob("*.jpg")
-  end
-
-  @available_streams = []
-
-  jpgs.each { |jpg|
-    @available_streams << jpg.sub(".jpg", "")
-  }
-
   erb :index
 end
+
+get '/streams.json' do
+  streams.to_json
+end
+
 
 get '/client/' do
   # instructions for client
@@ -83,5 +88,21 @@ end
 
 get '/client' do
   redirect '/client/'
+end
+
+get '/watch' do
+  redirect '/watch/'
+end
+
+get '/watch/' do
+  redirect '/'
+end
+
+get '/endless' do
+  redirect '/endless/'
+end
+
+get '/endless/' do
+  erb :endless
 end
 

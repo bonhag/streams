@@ -1,20 +1,37 @@
-* {
-  padding: 0;
-  margin: 0;
-}
 body {
   background: rgb(30, 30, 30);
   color: white;
-}
+  font-family: 'News Cycle', sans-serif;}
+
 a {
   color: white;
 }
-#imgContainer {
-  width: 100%;
+
+h1 {
+  text-align:center;
 }
-img {
-  position: absolute;
-  margin: 0px;
-  text-align: center;
+
+h2 {
+  text-align:center;
+  text-transform: uppercase;
+}
+
+#stream {
+  width:100%;
+  height:500px;
+  background: rgb(30, 30, 30) url("no.jpeg") center center no-repeat;
+}
+
+.column {
+  width:50%;
+  overflow:hidden;
+}
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
 }
 

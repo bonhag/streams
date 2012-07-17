@@ -3,18 +3,33 @@
   <head>
     <title>Paul John</title>
     <link rel="stylesheet" type="text/css" href="/all.css">
+    <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/news-cycle" rel="stylesheet" type="text/css"/>
+
     <script src="/src/jquery-1.7.2.js" type="text/javascript"></script>
   </head>
   <body>
     <h1>PAUL JOHN INTERNET ART</h1>
     <h2>DOT INFO</h2>
-    <center><%= "" %></center>
-    <p>The following streams are available for your enjoyment:</p>
-    <ul>
-    <% @available_streams.each do |stream| %>
-      <li><%= "<a href=\"/watch/#{stream}\">#{stream}</a>" %></li> 
-    <% end %>
-    </ul>
+
+    <div id="stream">
+    </div>
+
+    <div id="streams" class="left column">
+      <h2>Streams</h2>
+      <ul>
+        <% streams.each do |stream| %>
+        <li><a href="/watch/<%= stream %>"><%= stream %></a></li>
+        <% end %>
+      </ul>
+    </div>
+    <div id="more" class="right column">
+      <h2>More</h2>
+      <ul>
+        <li><a href="/endless/">Endless Exhibition</a></li>
+        <li><a href="http://paulsplayce.blogspot.com">Blog</a></li>
+        <li><a href="http://paulsplayce.tumblr.com">Tumblr</a></li>
+      </ul>
+    </div><!-- end #more -->
   </body>
 </html>
 
