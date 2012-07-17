@@ -4,7 +4,7 @@ HOST=http://www.pauljohninternetart.info
 
 STREAM=$1
 
-if [ ${STREAM} == "" ]
+if [ $# == 0 ]
 then
   echo "Please enter a name for this stream:"
   read STREAM
