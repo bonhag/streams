@@ -11,6 +11,8 @@
 
       function refreshStream(){
         $('#stream').attr("src", "/streams/<%= @name %>.jpg?"+i);
+        $('#stream').css("top", "50%"); 
+        $('#stream').css("left", "50%"); 
         $('#stream').css("width", $('#stream').width());
         $('#stream').css("height", $('#stream').height());
         $('#stream').css("margin-top", $('#stream').height() / -2);
@@ -29,8 +31,6 @@
       }
       img {
         position: absolute;
-        top: 50%;
-        left: 50%;
       }
     </style>
   </head>

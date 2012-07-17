@@ -71,6 +71,12 @@ delete '/delete/:stream' do
 end
 
 get '/' do
+  @rand_src = nil
+  if streams.empty?
+    @rand_src = "/no.jpg"
+  else
+    @rand_src = "/streams/#{streams.shuffle[0]}.jpg"
+  end
   erb :index
 end
 
