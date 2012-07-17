@@ -34,17 +34,10 @@ is created successfully your iSight should start snapping away wildly!
 If you don't have a Mac, or want to use a different application to capture
 images, here's how you would broadcast a stream using `curl`:
 
-## Create a new stream
-
-    curl http://www.pauljohninternetart.info/create/hungadunga
-
-If this is successful, it will return the password for the new stream. Stream
-names can only contain letters (uppercase and lowercase) A-Z.
-
 ## Update an image
 
 Say you have saved an image from your webcam called `capture.jpg` and you wanted
-to update a stream called `hungadunga` and a password of `beansprout`:
+to update a stream called `hungadunga`:
 
-    curl -T capture.jpg http://www.pauljohninternetart.info/update/hungadunga -u hungadunga:beansprout
+    curl -T capture.jpg http://www.pauljohninternetart.info/update/hungadunga
 
