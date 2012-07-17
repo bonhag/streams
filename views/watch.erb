@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title><%= @name %></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+      var i = 0;
+
+      function start(){
+        setInterval( "refreshStream()", 1000 );
+      }
+
+      function refreshStream(){
+        $('#stream').attr("src", "/streams/<%= @name %>.jpg?"+i);
+        $('#stream').css("width", $('#stream').width());
+        $('#stream').css("height", $('#stream').height());
+        $('#stream').css("margin-top", $('#stream').height() / -2);
+        $('#stream').css("margin-left", $('#stream').width() / -2);
+        i++;
+      }
+
+      $(document).ready(function(){
+        $('#imgContainer').height($(window).height());
+        start();
+      });
+    </script>
+    <style>
+      html {
+        background: rgb(30, 30, 30);
+      }
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="stream" alt="<%= @name %>" src="/streams/<%= @name %>.jpg">
+  </body>
+</html>
+

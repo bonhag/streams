@@ -2,17 +2,23 @@
 
 HOST=http://www.pauljohninternetart.info
 
-echo "Please enter a name for this stream:"
-read STREAM
+STREAM=$1
+
+if [ ${STREAM} == "" ]
+then
+  echo "Please enter a name for this stream:"
+  read STREAM
+fi
 
 STREAM=$(echo $STREAM | sed 's/[^A-Za-z]//g')
-PASSWORD=$(curl ${HOST}/create/${STREAM})
+# PASSWORD=$(curl ${HOST}/create/${STREAM})
 
 echo "You can watch this stream at ${HOST}/watch/${STREAM}"
 
 while [ 1 ]
 do
-  ./wacaw ${STREAM}
-  curl -T ${STREAM}.jpeg ${HOST}/update/${STREAM} -u ${STREAM}:${PASSWORD}
+  ./wacaw -d 2 -i 1 ${STREAM}
+  curl -T ${STREAM}.jpeg ${HOST}/update/${STREAM}
+# -u ${STREAM}:${PASSWORD}
 done
 

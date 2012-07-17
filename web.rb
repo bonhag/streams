@@ -39,8 +39,8 @@ end
 #ENV['RACK_ENV'] = "production"
 
 get '/watch/:stream' do
-  @stream = params[:stream]
-  erb :stream
+  @name = params[:stream]
+  erb :watch
 end
 
 get '/create/:stream' do
@@ -52,7 +52,6 @@ end
 
 put '/update/:stream' do
   stream = params[:stream]
-  protected!(stream)
   if ENV['RACK_ENV'] == "development"
     puts "Recieved request to update #{stream}"
   end
@@ -66,7 +65,6 @@ end
 
 delete '/delete/:stream' do
   stream = params[:stream]
-  protected!(stream)
   # first, delete password entry
   # then, delete file if it exists.
   File.delete( File.dirname(__FILE__) + "/public/streams/#{stream}.jpg" )
