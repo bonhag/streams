@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'redcarpet'
+require 'kramdown'
 require 'json'
 
 helpers do
@@ -37,6 +37,19 @@ helpers do
 end
 
 #ENV['RACK_ENV'] = "production"
+
+# simplify, simplify
+#
+set :active_streams, {}
+
+get '/stream/:id' do
+  settings.active_streams[params[:id]]
+end
+
+put '/stream/:id' do
+  settings.active_streams[params[:id]] = request.body.read
+end
+
 
 get '/watch/:stream' do
   @name = params[:stream]
