@@ -34,6 +34,7 @@ end
 set :active_streams, {}
 
 get '/stream/:id' do
+  content_type 'image/jpeg'
   settings.active_streams[params[:id]]
 end
 
