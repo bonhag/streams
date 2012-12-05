@@ -1,8 +1,8 @@
-<html>
-  <head>
-    <title><%= @name %></title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript">
+%html
+  %head
+    %title= @name
+    %script{:src => "/src/jquery-1.7.2.js", :type => "text/javascript"}
+    :javascript
       var i = 0;
 
       function start(){
@@ -24,18 +24,11 @@
         $('#imgContainer').height($(window).height());
         start();
       });
-    </script>
-    <style>
+    :css
       html {
         background: rgb(30, 30, 30);
       }
       img {
         position: absolute;
       }
-    </style>
-  </head>
-  <body>
-    <img id="stream" alt="<%= @name %>" src="/streams/<%= @name %>.jpeg">
-  </body>
-</html>
-
+    %img{:id => "stream", :src => "/streams/#{@stream}"}

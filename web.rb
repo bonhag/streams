@@ -43,8 +43,9 @@ put '/stream/:id' do
 end
 
 
-get '/watch/:stream' do
-  @id = params[:stream]
+get '/watch/:id' do
+  @name = params[:id]
+  @file = "#{params[:id]}.jpg" # or some other extension
   haml :watch
 end
 
