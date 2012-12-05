@@ -51,24 +51,13 @@ get '/create/:stream' do
   nil
 end
 
+# Note, these two are duplicates, and, I guess, deprecated.
 put '/update/:stream' do
-  puts "update/stream"
-  if ENV['RACK_ENV'] == "development"
-    puts "Recieved request to update #{stream}"
-  end
-  File.open("public/streams/#{stream}.jpeg", 'w+') do |file|
-    file.write(request.body.read)
-  end
-  if ENV['RACK_ENV'] == "development"
-    puts "Stream updated successfully."
-  end
+  settings.active_streams[params[:stream]] = request.body.read
 end
 
 put '/upload/:id' do
-  puts "/upload/id"
-  File.open("public/streams/#{params[:id]}", 'w+') do |file|
-    file.write(request.body.read)
-  end
+  settings.active_streams[params[:id]] = request.body.read
 end
 
 delete '/delete/:stream' do
