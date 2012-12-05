@@ -45,7 +45,7 @@ end
 
 get '/watch/:stream' do
   @id = params[:stream]
-  erb :watch
+  haml :watch
 end
 
 get '/create/:stream' do
@@ -67,12 +67,13 @@ end
 
 get '/' do
   @rand_src = nil
-  if streams.empty?
+  @streams = settings.active_streams
+  if settings.active_streams.empty?
     @rand_src = "/no.jpeg"
   else
-    @rand_src = "/streams/#{streams.shuffle[0]}.jpeg"
+    @rand_src = "/streams/#{settings.active_streams.shuffle[0]}"
   end
-  erb :index
+  haml :index, :format => :html5
 end
 
 get '/streams.json' do
@@ -102,6 +103,6 @@ get '/endless' do
 end
 
 get '/endless/' do
-  erb :endless
+  haml :endless
 end
 

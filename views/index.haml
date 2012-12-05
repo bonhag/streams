@@ -1,0 +1,32 @@
+%html
+  %head
+    %title Paul John
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/all.css"}
+    %link{:rel => "stylesheet", :media => "screen", :href => "http://openfontlibrary.org/face/news-cycle"}
+    %script{:src => "/src/jquery-1.7.2.js", :type => "text/javascript"}
+
+  %body
+
+    %h1 PAUL JOHN INTERNET ART
+    %h2 DOT INFO
+
+    #stream
+      %center
+        %img{:src => @rand_src}
+
+    #streams.left.column
+      %h2 streams
+      %ul
+        - @streams.each do |stream|
+          %li
+            %a{:href => "/watch/#{stream}"}= stream
+
+    #more.right.column
+      %ul
+        %li
+          %a{:href => '/endless/'} endless exhibition
+        %li
+          %a{:href => 'http://paulsplayce.blogspot.com'} blog
+        %li
+          %a{:href => 'http://paulsplayce.tumblr.com'} tumblr
+
