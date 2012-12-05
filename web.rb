@@ -4,15 +4,6 @@ require 'json'
 
 helpers do
 
-  def streams
-    all_streams = []
-    files = Dir.glob("public/streams/*.jpeg")
-    files.each do |file|
-      all_streams << file.sub("public/streams/","").sub(".jpeg","")
-    end
-    all_streams
-  end
-
   def protected!(stream)
     unless authorized?(stream)
       response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
@@ -52,19 +43,16 @@ end
 
 
 get '/watch/:stream' do
-  @name = params[:stream]
+  @id = params[:stream]
   erb :watch
 end
 
 get '/create/:stream' do
-  stream = params[:stream].gsub(/[^A-Za-z]/, "")
-  password = stream
-  # return password, and that's all
-  password
+  nil
 end
 
 put '/update/:stream' do
-  stream = params[:stream].gsub(/[^A-Za-z]/, "")
+  puts "update/stream"
   if ENV['RACK_ENV'] == "development"
     puts "Recieved request to update #{stream}"
   end
@@ -77,16 +65,14 @@ put '/update/:stream' do
 end
 
 put '/upload/:id' do
+  puts "/upload/id"
   File.open("public/streams/#{params[:id]}", 'w+') do |file|
     file.write(request.body.read)
   end
 end
 
 delete '/delete/:stream' do
-  stream = params[:stream].gsub(/[^A-Za-z]/, "")
-  # first, delete password entry
-  # then, delete file if it exists.
-  File.delete( "public/streams/#{stream}.jpeg" )
+  nil
 end
 
 get '/' do
