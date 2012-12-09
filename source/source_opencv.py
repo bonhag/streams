@@ -1,9 +1,15 @@
 import cv
 import requests
 
-capture = cv.CaptureFromCAM(0)
+camera = 0
+put = 'http://localhost:9292/streams/'
+stream_id = 'opencv'
+filetype = 'jpg'
+
+capture = cv.CaptureFromCAM(camera)
 while True:
     im = cv.QueryFrame(capture)
-    cv.SaveImage("opencv.jpg", im)
-    requests.put("http://localhost:9292/streams/opencv.jpg",
-            data=open('opencv.jpg', 'rb'))
+    cv.SaveImage("%s.%s" % (stream_id, filetype), im)
+    requests.put("%s/%s.%s" % (put, stream_id, filetype),
+#            data=im.tostring())
+            data=open("%s.%s" % (stream_id, filetype), 'rb'))
