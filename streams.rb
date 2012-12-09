@@ -14,6 +14,10 @@ def get_stream id
   settings.streams[id]
 end
 
+def get_latest_version id
+  0
+end
+
 #ENV['RACK_ENV'] = "production"
 
 # simplify, simplify
@@ -40,6 +44,7 @@ get '/watch/:id' do
 post '/stream_has_been_updated' do
   content_type :json
   answer = 'no'
+  src = '/'
 
   id = request.referrer.split('/')[-1]
   version = params[:version].to_i
@@ -48,9 +53,10 @@ post '/stream_has_been_updated' do
 
   if stream && version < stream[:version]
     answer = 'yes'
+    src = "/streams/#{id}.jpg?#{stream[:version]}"
   end
 
-  {:answer => answer}.to_json
+  {:answer => answer, :src => src}.to_json
 end
 
 get '/' do
