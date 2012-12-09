@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'kramdown'
 require 'json'
+require 'haml'
+
+set :all_streams, {}
 
 helpers do
 
@@ -25,41 +28,68 @@ helpers do
     # a stream exists if there is a password set for it
     false
   end
+
+  def new_version? stream_name, current_version
+    'no'
+  end
 end
 
 #ENV['RACK_ENV'] = "production"
 
 # simplify, simplify
 #
-set :active_streams, {}
 
-get '/stream/:id' do
+get '/streams/:id' do
   content_type 'image/jpeg'
-  settings.active_streams[params[:id]]
+  settings.all_streams[params[:id]]
 end
 
-put '/stream/:id' do
-  settings.active_streams[params[:id]] = request.body.read
+put '/streams/:id' do
+  content_type :json
+  #settings.all_streams[params[:id]] = request.body.read
+  # version (time travel)
+  {:last_updated => Time.now.to_i}.to_json
 end
-
 
 get '/watch/:id' do
   @name = params[:id]
-  @file = "#{params[:id]}.jpg" # or some other extension
+  @version = Time.new.to_i
   haml :watch
-end
-
+  end
+  
 get '/create/:stream' do
   nil
+end
+ 
+post '/is' do
+  content_type :json
+  {:answer => 'no'}.to_json
+end
+
+get '/check' do
+  content_type :json
+  # get the name of the stream we're watching
+  begin
+    what_am_i_watching = request.referrer.split('/')[-1]
+  rescue NoMethodError
+    puts 'Somebody tried to do something bad'
+  end
+
+
+  # check to see whether there's a new version of that stream
+  json_request = JSON.parse request.body.to_s
+  current_version = json_request.version
+  answer = new_version? what_am_i_watching, current_version
+  {:answer => answer}.to_json
 end
 
 # Note, these two are duplicates, and, I guess, deprecated.
 put '/update/:stream' do
-  settings.active_streams[params[:stream]] = request.body.read
+  settings.all_streams[params[:stream]] = request.body.read
 end
 
 put '/upload/:id' do
-  settings.active_streams[params[:id]] = request.body.read
+  settings.all_streams[params[:id]] = request.body.read
 end
 
 delete '/delete/:stream' do
@@ -68,11 +98,11 @@ end
 
 get '/' do
   @rand_src = nil
-  @streams = settings.active_streams
-  if settings.active_streams.empty?
+  @streams = settings.all_streams
+  if settings.all_streams.empty?
     @rand_src = "/no.jpeg"
   else
-    @rand_src = "/streams/#{settings.active_streams.shuffle[0]}"
+    @rand_src = "/streams/#{settings.all_streams.shuffle[0]}"
   end
   haml :index, :format => :html5
 end
@@ -99,6 +129,7 @@ get '/watch/' do
   redirect '/'
 end
 
+# think about end points
 get '/endless' do
   redirect '/endless/'
 end

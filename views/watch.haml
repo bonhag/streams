@@ -10,7 +10,6 @@
       }
 
       function refreshStream(){
-        $('#stream').attr("src", "/streams/<%= @name %>.jpeg?"+i);
         $('#stream').css("top", "50%"); 
         $('#stream').css("left", "50%"); 
         $('#stream').css("width", $('#stream').width());
@@ -21,8 +20,14 @@
       }
 
       $(document).ready(function(){
-        $('#imgContainer').height($(window).height());
-        start();
+        //$('#imgContainer').height($(window).height());
+        //start();
+        // I'm only asking you to remember one thing.
+        $.post('/is', { version: $('#version').text() },
+          function(response){
+            alert(response.what_am_i_watching);
+          });
+        
       });
     :css
       html {
@@ -31,4 +36,5 @@
       img {
         position: absolute;
       }
-    %img{:id => "stream", :src => "/streams/#{@stream}"}
+    #version= @version
+
