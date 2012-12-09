@@ -43,11 +43,9 @@ post '/stream_should_update' do
 
   id = request.referrer.split('/')[-1]
   stream = load_stream id
-  answer = 'no'
-  if my_version < stream[:version]
-    answer = 'yes'
-  end
-  {:answer => answer}.to_json
+  return {:answer => 'no'}.to_json unless stream && my_version < stream[:version]
+
+  {:answer => 'yes'}.to_json
 end
 
 get '/' do

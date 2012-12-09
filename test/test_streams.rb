@@ -31,7 +31,6 @@ class StreamsTest < Test::Unit::TestCase
       'http://localhost:4567/watch/coming_to_america'
 
     json_response = JSON.parse last_response.body
-    p json_response
     assert_equal 'no', json_response['answer']
   end
 
