@@ -19,8 +19,8 @@ end
 # simplify, simplify
 #
 
-get '/streams/:id' do
-  content_type 'image/jpeg'
+get '/streams/:id.*' do
+  content_type 'image/jpeg' # change content type for image type?
   stream = get_stream params[:id]
   stream.data
 end
@@ -37,8 +37,9 @@ get '/watch/:id' do
   haml :watch
   end
   
-post '/stream_should_be_updated' do
+post '/stream_has_been_updated' do
   content_type :json
+  answer = 'no'
 
   id = request.referrer.split('/')[-1]
   version = params[:version].to_i
@@ -46,19 +47,19 @@ post '/stream_should_be_updated' do
   stream = get_stream id
 
   if stream && version < stream[:version]
-    return {:answer => 'yes', :data => stream[:data]}.to_json
+    answer = 'yes'
   end
 
-  {:answer => 'no'}.to_json
+  {:answer => answer}.to_json
 end
 
 get '/' do
   @rand_src = nil
-  @streams = settings.all_streams
-  if settings.all_streams.empty?
+  @streams = settings.streams
+  if settings.streams.empty?
     @rand_src = "/no.jpeg"
   else
-    @rand_src = "/streams/#{settings.all_streams.shuffle[0]}"
+    @rand_src = "/streams/#{settings.shuffle[0]}"
   end
   haml :index, :format => :html5
 end

@@ -21,12 +21,15 @@
 
       $(document).ready(function(){
         //$('#imgContainer').height($(window).height());
-        //start();
-        // I'm only asking you to remember one thing.
-        $.post('/stream_should_update', { version: $('#version').text() },
-          function(response){
-            alert(response.what_am_i_watching);
-          });
+
+        setInterval(function () {
+          // I'm only asking you to remember one thing.
+          $.post('/stream_has_been_updated', { version: $('#version').text() },
+            function(response){
+              if (response.answer == 'yes')
+                $('#stream').attr('src', response.latest_version); // response.latest_version)
+            });
+        }, 1000);
         
       });
     :css
@@ -36,5 +39,5 @@
       img {
         position: absolute;
       }
-    #version= @version
-
+    #version 0
+    %img#stream

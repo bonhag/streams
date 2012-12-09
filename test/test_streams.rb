@@ -27,7 +27,7 @@ class StreamsTest < Test::Unit::TestCase
 
   # pollute
   def test_should_update_if_no_streams_exist
-    post '/stream_should_be_updated', {}, 'HTTP_REFERER' =>
+    post '/stream_has_been_updated', {}, 'HTTP_REFERER' =>
       'http://localhost:4567/watch/coming_to_america'
 
     json_response = JSON.parse last_response.body
@@ -46,7 +46,7 @@ class StreamsTest < Test::Unit::TestCase
   def test_my_version_is_earlier_than_latest_version
     put '/streams/shabazz.jpg', 'black up'
 
-    post '/stream_should_be_updated', {:version => 0},
+    post '/stream_has_been_updated', {:version => 0},
       'HTTP_REFERER' => 'http://localhost:4567/watch/shabazz'
 
     json_response = JSON.parse last_response.body
@@ -58,21 +58,11 @@ class StreamsTest < Test::Unit::TestCase
     stream = get_stream 'busta'
     latest_version = stream[:version]
 
-    post '/stream_should_be_updated', {:version => latest_version},
+    post '/stream_has_been_updated', {:version => latest_version},
       'HTTP_REFERER' => 'http://localhost:4567/watch/busta'
 
     json_response = JSON.parse last_response.body
     assert_equal 'no', json_response['answer']
-  end
-
-  def test_data_returned_if_new_version_available
-    put '/streams/radiohead.jpg', 'in rainbows'
-
-    post '/stream_should_be_updated', {:version => 0},
-      'HTTP_REFERER' => 'http://localhost:4567/watch/radiohead'
-
-    json_response = JSON.parse last_response.body
-    assert_equal 'in rainbows', json_response['data']
   end
 
   def test_put_stream_data
