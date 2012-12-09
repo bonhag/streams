@@ -45,6 +45,7 @@ post '/stream_has_been_updated' do
   content_type :json
   answer = 'no'
   src = '/'
+  version = 0
 
   id = request.referrer.split('/')[-1]
   version = params[:version].to_i
@@ -54,9 +55,10 @@ post '/stream_has_been_updated' do
   if stream && version < stream[:version]
     answer = 'yes'
     src = "/streams/#{id}.jpg?#{stream[:version]}"
+    version = stream[:version]
   end
 
-  {:answer => answer, :src => src}.to_json
+  {:answer => answer, :src => src, :version => version}.to_json
 end
 
 get '/' do

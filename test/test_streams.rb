@@ -69,6 +69,26 @@ class StreamsTest < Test::Unit::TestCase
     assert_equal 0, get_latest_version('foo')
   end
 
+  def test_stream_does_not_exist_what_is_the_latest_version
+    post '/stream_has_been_updated', {},
+      'HTTP_REFERER' => 'http://localhost:4567/watch/lake'
+    json_response = JSON.parse last_response.body
+
+    assert_equal 0, json_response['version']
+  end
+
+  def test_stream_has_been_updated_what_is_the_latest_version
+    put '/streams/dock.jpg'
+    stream = get_stream 'dock'
+    version = stream[:version]
+
+    post '/stream_has_been_updated', {},
+      'HTTP_REFERER' => 'http://localhost:4567/watch/dock'
+    json_response = JSON.parse last_response.body
+
+    assert_equal version, json_response['version']
+  end
+
   def test_my_version_is_earlier_what_is_the_new_url
     put '/streams/woody_allen.jpg'
     stream = get_stream 'woody_allen'
