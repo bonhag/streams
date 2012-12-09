@@ -5,12 +5,12 @@ require 'haml'
 
 set :streams, {}
 
-def save_stream id, data
+def put_stream id, data
   settings.streams[id] = {:data => data, :version => Time.now.to_i}
   settings.streams[id][:version]
 end
 
-def load_stream id
+def get_stream id
   settings.streams[id]
 end
 
@@ -21,13 +21,13 @@ end
 
 get '/streams/:id' do
   content_type 'image/jpeg'
-  stream = load_stream params[:id]
+  stream = get_stream params[:id]
   stream.data
 end
 
-put '/streams/:id' do
+put '/streams/:id.*' do
   content_type :json
-  version = save_stream params[:id], request.body.read
+  version = put_stream params[:id], request.body.read
 
   # version (time travel)
   {:version => version}.to_json
@@ -37,15 +37,19 @@ get '/watch/:id' do
   haml :watch
   end
   
-post '/stream_should_update' do
+post '/stream_should_be_updated' do
   content_type :json
-  my_version = params[:version]
 
   id = request.referrer.split('/')[-1]
-  stream = load_stream id
-  return {:answer => 'no'}.to_json unless stream && my_version < stream[:version]
+  version = params[:version].to_i
 
-  {:answer => 'yes'}.to_json
+  stream = get_stream id
+
+  if stream && version < stream[:version]
+    return {:answer => 'yes', :data => stream[:data]}.to_json
+  end
+
+  {:answer => 'no'}.to_json
 end
 
 get '/' do

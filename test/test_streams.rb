@@ -27,38 +27,64 @@ class StreamsTest < Test::Unit::TestCase
 
   # pollute
   def test_should_update_if_no_streams_exist
-    post '/stream_should_update', {}, 'HTTP_REFERER' =>
+    post '/stream_should_be_updated', {}, 'HTTP_REFERER' =>
       'http://localhost:4567/watch/coming_to_america'
 
     json_response = JSON.parse last_response.body
     assert_equal 'no', json_response['answer']
   end
 
-  def _test_my_version_is_earlier_than_latest_version
+  def test_different_image_types_write_to_same_stream
+    put '/streams/stones_throw.jpg', 'organ sounds'
+    put '/streams/stones_throw.tiff', 'synthesizer'
+
+    stream = get_stream 'stones_throw'
+
+    assert_equal stream[:data], 'synthesizer'
+  end
+
+  def test_my_version_is_earlier_than_latest_version
     put '/streams/shabazz.jpg', 'black up'
 
-    post '/stream_should_update', {:my_version => 0},
+    post '/stream_should_be_updated', {:version => 0},
       'HTTP_REFERER' => 'http://localhost:4567/watch/shabazz'
 
     json_response = JSON.parse last_response.body
     assert_equal 'yes', json_response['answer']
   end
 
-  def _test_data_returned_if_new_version_available
+  def test_my_version_is_same_as_latest_version
+    put '/streams/busta.png', 'new york sh*t'
+    stream = get_stream 'busta'
+    latest_version = stream[:version]
+
+    post '/stream_should_be_updated', {:version => latest_version},
+      'HTTP_REFERER' => 'http://localhost:4567/watch/busta'
+
+    json_response = JSON.parse last_response.body
+    assert_equal 'no', json_response['answer']
+  end
+
+  def test_data_returned_if_new_version_available
     put '/streams/radiohead.jpg', 'in rainbows'
 
-    post '/stream_should_be_updated', {:my_version => 0},
+    post '/stream_should_be_updated', {:version => 0},
       'HTTP_REFERER' => 'http://localhost:4567/watch/radiohead'
 
     json_response = JSON.parse last_response.body
-    assert_equal json_response['and_here_it_is'], 'in rainbows'
+    assert_equal 'in rainbows', json_response['data']
   end
 
-  def test_save_stream_data
-    save_stream 'big cat', 'soft and furry'
-    stream = load_stream 'big cat'
+  def test_put_stream_data
+    put_stream 'big cat', 'soft and furry'
+    stream = get_stream 'big cat'
     assert_equal 'soft and furry', stream[:data]
   end
-    
-    
+
+  def test_put_stream_updates_version
+    start_time = Time.now.to_i
+    put_stream 'little cat', 'sweet'
+    stream = get_stream 'little cat'
+    assert start_time <= stream[:version], "#{start_time} should be <= than #{stream[:version]}"
+  end
 end
