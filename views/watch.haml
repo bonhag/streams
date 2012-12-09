@@ -23,7 +23,7 @@
         //$('#imgContainer').height($(window).height());
         //start();
         // I'm only asking you to remember one thing.
-        $.post('/is', { version: $('#version').text() },
+        $.post('/stream_should_update', { version: $('#version').text() },
           function(response){
             alert(response.what_am_i_watching);
           });
