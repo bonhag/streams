@@ -1,7 +1,7 @@
 %html
   %head
-    %title= @name
-    %script{:src => "/src/jquery-1.7.2.js", :type => "text/javascript"}
+    %title= @id
+    %script{:src => "/js/jquery-1.8.3.min.js", :type => "text/javascript"}
     :javascript
       var i = 0;
 
@@ -26,8 +26,12 @@
           // I'm only asking you to remember one thing.
           $.post('/stream_has_been_updated', { version: $('#version').text() },
             function(response){
-              if (response.answer == 'yes')
-                $('#stream').attr('src', response.latest_version); // response.latest_version)
+              console.log(response);
+              if (response.answer == 'yes') {
+                $('#stream').attr('src', response.src);
+                $('#version').text(response.version);
+              }
+
             });
         }, 1000);
         

@@ -1,9 +1,10 @@
+!!! 5
 %html
   %head
     %title Paul John
     %link{:rel => "stylesheet", :type => "text/css", :href => "/all.css"}
     %link{:rel => "stylesheet", :media => "screen", :href => "http://openfontlibrary.org/face/news-cycle"}
-    %script{:src => "/src/jquery-1.7.2.js", :type => "text/javascript"}
+    %script{:src => "/js/jquery-1.8.3.min.js", :type => "text/javascript"}
 
   %body
 
@@ -12,7 +13,7 @@
 
     #stream
       %center
-        %img{:src => @rand_src}
+        %img{:src => "/streams/#{@focus}.jpg"}
 
     #streams.left.column
       %h2 streams
