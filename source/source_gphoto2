@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Set the stream name here
+STREAM_NAME=gphoto2
+
+# Begin the auto-capture for gphoto2
+gphoto2 --capture-image-and-download --interval 1 --filename "$STREAM_HAME.jpg" --force-overwrite&
+
+while [ 1 ]
+do
+  # Send whatever the most recently taken photo was
+  curl -T "$STREAM_NAME.jpg" http://192.168.1.104:9292/streams/ > /dev/null
+
+  # Give gphoto2 a little time to catch up
+  sleep 1
+done
+
