@@ -9,6 +9,11 @@ class StreamsTest < Test::Unit::TestCase
     Sinatra::Application
   end
 
+  def setup
+    # start with no streams
+    settings.streams.delete_if { true }
+  end
+
   def test_updating_a_stream
     start_time = Time.now.to_i
 
@@ -112,5 +117,11 @@ class StreamsTest < Test::Unit::TestCase
     put_stream 'little cat', 'sweet'
     stream = get_stream 'little cat'
     assert start_time <= stream[:version], "#{start_time} should be <= than #{stream[:version]}"
+  end
+
+  def test_random_stream_with_one_stream
+    put '/streams/rhubarb.jpg'
+
+    assert_equal 'rhubarb', random_stream
   end
 end

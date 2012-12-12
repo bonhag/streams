@@ -2,32 +2,36 @@
 %html
   %head
     %title Paul John
+    %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet", :media => "screen"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "/css/all.css"}
     %link{:rel => "stylesheet", :media => "screen", :href => "http://openfontlibrary.org/face/news-cycle"}
-    %script{:src => "/js/jquery-1.8.3.min.js", :type => "text/javascript"}
 
   %body
+    .container
+      .row
+        .span12
+          %h1 PAUL JOHN INTERNET ART
+          %h2 DOT INFO
 
-    %h1 PAUL JOHN INTERNET ART
-    %h2 DOT INFO
+          #stream
+            %center
+              %img{:src => "/streams/#{@focus}.jpg"}
+      .row
+        .span6
+          %h2 streams
+          %ul
+          - @streams.each do |stream|
+            %li
+              %a{:href => "/watch/#{stream}"}= stream
+        .span6
+          %h2 other
+          %ul
+            %li
+              %a{:href => '/endless/'} endless exhibition
+            %li
+              %a{:href => 'http://paulsplayce.blogspot.com'} blog
+            %li
+              %a{:href => 'http://paulsplayce.tumblr.com'} tumblr
 
-    #stream
-      %center
-        %img{:src => "/streams/#{@focus}.jpg"}
-
-    #streams.left.column
-      %h2 streams
-      %ul
-        - @streams.each do |stream|
-          %li
-            %a{:href => "/watch/#{stream}"}= stream
-
-    #more.right.column
-      %ul
-        %li
-          %a{:href => '/endless/'} endless exhibition
-        %li
-          %a{:href => 'http://paulsplayce.blogspot.com'} blog
-        %li
-          %a{:href => 'http://paulsplayce.tumblr.com'} tumblr
-
+    %script{:src => "/js/jquery-1.8.3.min.js"}
+    %script{:src => "/js/bootstrap.min.js"}

@@ -18,6 +18,10 @@ def get_latest_version id
   0
 end
 
+def random_stream
+  settings.streams.keys.shuffle.first
+end
+
 #ENV['RACK_ENV'] = "production"
 
 # simplify, simplify
@@ -26,7 +30,7 @@ end
 get '/streams/:id.*' do
   content_type 'image/jpeg' # change content type for image type?
   stream = get_stream params[:id]
-  stream.data
+  stream[:data] unless stream.nil?
 end
 
 put '/streams/:id.*' do
@@ -38,6 +42,7 @@ put '/streams/:id.*' do
 end
 
 get '/watch/:id' do
+  @id = params[:id]
   haml :watch
   end
   
@@ -63,12 +68,8 @@ end
 
 get '/' do
   @rand_src = nil
-  @streams = settings.streams
-  if settings.streams.empty?
-    @rand_src = "/no.jpeg"
-  else
-    @rand_src = "/streams/#{settings.shuffle[0]}"
-  end
+  @focus = random_stream
+  @streams = settings.streams.keys.shuffle
   haml :index, :format => :html5
 end
 
