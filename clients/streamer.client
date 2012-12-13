@@ -1,7 +1,7 @@
 #!/bin/sh
 
 stream_id='streamer'
-host=http://paul-john-test.herokuapp.com/
+host=http://streams-test.herokuapp.com/
 
 while [ 1 ]
 do

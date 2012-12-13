@@ -3,7 +3,7 @@ import cv
 import requests
 
 camera = 0
-host = 'http://paul-john-test.herokuapp.com'
+host = 'http://streams-test.herokuapp.com'
 stream_id = 'opencv'
 
 capture = cv.CaptureFromCAM(camera)
