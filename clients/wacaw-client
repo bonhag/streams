@@ -1,0 +1,10 @@
+#!/bin/sh
+
+stream_id='wacaw'
+host=http://streams-test.herokuapp.com/
+
+while [ 1 ]
+do
+  ./wacaw --VGA "$stream_id"
+  curl -T "$stream_id.jpeg" "$host/streams/$stream_id.jpg"
+done
