@@ -1,0 +1,10 @@
+#!/bin/sh
+
+stream_id='streamer'
+host=http://paul-john-test.herokuapp.com/
+
+while [ 1 ]
+do
+  streamer -o "$stream_id.jpg"
+  curl -T "$stream_id.jpg" $host/streams/
+done

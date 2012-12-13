@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+import cv
+import requests
+
+camera = 0
+host = 'http://paul-john-test.herokuapp.com'
+stream_id = 'opencv'
+
+capture = cv.CaptureFromCAM(camera)
+while True:
+    im = cv.QueryFrame(capture)
+    cv.SaveImage("%s.%s" % (stream_id, filetype), im)
+    requests.put("%s/streams/%s.jpg" % (host, stream_id),
+            data=open("%s.jpg" % (stream_id), 'rb'))
