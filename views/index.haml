@@ -12,6 +12,8 @@
         .span12
           %h1 PAUL JOHN INTERNET ART
           %h2 streams v.3
+      .row
+        %img#stream
 
     %script{:src => "/js/jquery-1.8.3.min.js"}
     :javascript
@@ -27,8 +29,7 @@
 
           //tempo of the site
           $.get('/random', function(response){
-            $('.container').css('background',
-                'url('+response.src+') center center no-repeat');
+            $('#stream').attr('src', response.src);
             current_stream = response.src.split(/[/.]/)[2]
           });
         }, 1000);

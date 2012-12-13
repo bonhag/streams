@@ -3,11 +3,12 @@
   %head
     %title= @id
     :css
-      html {
-        background: rgb(30, 30, 30);
-      }
+      html { background: rgb(30, 30, 30); }
+      body { height: 100px; line-height: 100px; text-align: center; }
+      img { vertical-align: middle; }
+
   %body
-    %div#stream
+    %img#stream
 
     %script{:src => "/js/jquery-1.8.3.min.js"}
     :javascript
@@ -24,10 +25,7 @@
               $('#stream').height($(window).height());
 
               if (response.answer == 'yes') {
-
-                $('#stream').css('background',
-                   'url('+response.src+') center center no-repeat');
-
+                $('#stream').attr('src', response.src);
                 version = response.version;
               }
 
