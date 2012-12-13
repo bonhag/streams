@@ -2,7 +2,6 @@
 %html
   %head
     %title= @id
-    %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet", :media => "screen"}
     :css
       html {
         background: rgb(30, 30, 30);
@@ -11,44 +10,26 @@
         position: absolute;
       }
   %body
-    .container
-      .row
-        .span12
-          %img#stream
-      .row
-        .span12
-          %span#version 0
+    %div#stream
 
     %script{:src => "/js/jquery-1.8.3.min.js"}
-    %script{:src => "/js/bootstrap.min.js"}
     :javascript
-      var i = 0;
-
-      function start(){
-        setInterval( "refreshStream()", 2000 );
-      }
-
-      function refreshStream(){
-        $('#stream').css("top", "50%"); 
-        $('#stream').css("left", "50%"); 
-        $('#stream').css("width", $('#stream').width());
-        $('#stream').css("height", $('#stream').height());
-        $('#stream').css("margin-top", $('#stream').height() / -2);
-        $('#stream').css("margin-left", $('#stream').width() / -2);
-        i++;
-      }
-
       $(document).ready(function(){
-        //$('#imgContainer').height($(window).height());
+        var version = 0;
+        $('#stream').height($(window).height());
 
         setInterval(function () {
-          // I'm only asking you to remember one thing.
-          $.post('/stream_has_been_updated', { version: $('#version').text() },
+          // check to see if stream has been updated, compared to
+          // current version
+
+          $.post('/stream_has_been_updated', { version: version },
             function(response){
-              console.log(response);
               if (response.answer == 'yes') {
-                $('#stream').attr('src', response.src);
-                $('#version').text(response.version);
+
+                $('#stream').css('background',
+                   'url('+response.src+') center center no-repeat');
+
+                version = response.version;
               }
 
             });

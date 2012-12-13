@@ -5,6 +5,10 @@
     %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet", :media => "screen"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "/css/all.css"}
     %link{:rel => "stylesheet", :media => "screen", :href => "http://openfontlibrary.org/face/news-cycle"}
+    :css
+      .span4 {
+        border: 3px solid green;
+      }
 
   %body
     .container
@@ -13,17 +17,14 @@
           %h1 PAUL JOHN INTERNET ART
           %h2 DOT INFO
 
-          #stream
-            %center
-              %img{:src => "/streams/#{@focus}.jpg"}
       .row
-        .span6
+        .span4.offset2
           %h2 streams
           %ul
           - @streams.each do |stream|
             %li
               %a{:href => "/watch/#{stream}"}= stream
-        .span6
+        .span4.offset2
           %h2 other
           %ul
             %li
