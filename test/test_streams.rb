@@ -14,6 +14,21 @@ class StreamsTest < Test::Unit::TestCase
     settings.streams.delete_if { true }
   end
 
+  def test_random_stream_gives_us_a_green_screen_with_no_streams
+    get '/random'
+
+    json_response = JSON.parse last_response.body
+    assert_equal '/img/no.jpg', json_response['src']
+  end
+
+  def test_random_stream_gives_up_only_stream_with_one_stream
+    put '/streams/beano.jpg', 'british pounds'
+    get '/random'
+
+    json_response = JSON.parse last_response.body
+    assert_equal '/streams/beano.jpg', json_response['src']
+  end
+
   def test_updating_a_stream
     start_time = Time.now.to_i
 

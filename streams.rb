@@ -41,6 +41,17 @@ put '/streams/:id.*' do
   {:version => version}.to_json
 end
 
+get '/random' do
+  content_type :json
+  stream = random_stream
+  if stream.nil?
+    src = '/img/no.jpg'
+  else
+    src = "/streams/#{stream}.jpg"
+  end
+  {:src => src}.to_json
+end
+
 get '/watch/:id' do
   @id = params[:id]
   haml :watch
@@ -67,9 +78,6 @@ post '/stream_has_been_updated' do
 end
 
 get '/' do
-  @rand_src = nil
-  @focus = random_stream
-  @streams = settings.streams.keys.shuffle
   haml :index, :format => :html5
 end
 

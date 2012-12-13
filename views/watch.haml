@@ -6,9 +6,6 @@
       html {
         background: rgb(30, 30, 30);
       }
-      img {
-        position: absolute;
-      }
   %body
     %div#stream
 
@@ -16,7 +13,6 @@
     :javascript
       $(document).ready(function(){
         var version = 0;
-        $('#stream').height($(window).height());
 
         setInterval(function () {
           // check to see if stream has been updated, compared to
@@ -24,6 +20,9 @@
 
           $.post('/stream_has_been_updated', { version: version },
             function(response){
+              // expand stream to fill window
+              $('#stream').height($(window).height());
+
               if (response.answer == 'yes') {
 
                 $('#stream').css('background',

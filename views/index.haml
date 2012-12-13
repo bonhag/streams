@@ -5,34 +5,33 @@
     %link{:href => "/css/bootstrap.min.css", :rel => "stylesheet", :media => "screen"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "/css/all.css"}
     %link{:rel => "stylesheet", :media => "screen", :href => "http://openfontlibrary.org/face/news-cycle"}
-    :css
-      .span4 {
-        border: 3px solid green;
-      }
 
   %body
     .container
       .row
         .span12
           %h1 PAUL JOHN INTERNET ART
-          %h2 DOT INFO
-
-      .row
-        .span4.offset2
-          %h2 streams
-          %ul
-          - @streams.each do |stream|
-            %li
-              %a{:href => "/watch/#{stream}"}= stream
-        .span4.offset2
-          %h2 other
-          %ul
-            %li
-              %a{:href => '/endless/'} endless exhibition
-            %li
-              %a{:href => 'http://paulsplayce.blogspot.com'} blog
-            %li
-              %a{:href => 'http://paulsplayce.tumblr.com'} tumblr
+          %h2 streams v.3
 
     %script{:src => "/js/jquery-1.8.3.min.js"}
+    :javascript
+      $(document).ready(function(){
+        var current_stream;
+
+        $('.container').click(function(){
+          window.location = "/watch/"+current_stream;
+        });
+
+        setInterval(function(){
+          $('.container').height($(window).height());
+
+          //tempo of the site
+          $.get('/random', function(response){
+            $('.container').css('background',
+                'url('+response.src+') center center no-repeat');
+            current_stream = response.src.split(/[/.]/)[2]
+          });
+        }, 1000);
+      });
+
     %script{:src => "/js/bootstrap.min.js"}
