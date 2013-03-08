@@ -39,5 +39,5 @@ images, here's how you would broadcast a stream using `curl`:
 Say you have saved an image from your webcam called `capture.jpg` and you wanted
 to update a stream called `hungadunga`:
 
-    curl -T capture.jpg http://www.pauljohninternetart.info/update/hungadunga
+    curl -T capture.jpg http://streams-test.herokuapp.com/streams/hungadunga.jpg
 

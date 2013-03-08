@@ -1,6 +1,6 @@
 #!/bin/sh
 
-HOST=http://www.pauljohninternetart.info
+HOST=http://streams-test.herokuapp.com
 
 STREAM=$1
 
@@ -11,14 +11,12 @@ then
 fi
 
 STREAM=$(echo $STREAM | sed 's/[^A-Za-z]//g')
-# PASSWORD=$(curl ${HOST}/create/${STREAM})
 
 echo "You can watch this stream at ${HOST}/watch/${STREAM}"
 
 while [ 1 ]
 do
   ./wacaw -d 2 -i 1 ${STREAM}
-  curl -T ${STREAM}.jpeg ${HOST}/update/${STREAM}
-# -u ${STREAM}:${PASSWORD}
+  curl -T ${STREAM}.jpeg ${HOST}/streams/${STREAM}.jpg
 done
 
